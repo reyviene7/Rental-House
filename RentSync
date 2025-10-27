@@ -6,7 +6,7 @@ case $1 in
     ;;
 
   mobile)
-    cd mobile
+    cd mobile || { echo "❌ 'mobile/' directory not found. Run: npx create-expo-app mobile --template blank-typescript"; exit 1; }
     ;;
 
   server)
