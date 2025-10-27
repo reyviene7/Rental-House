@@ -1,0 +1,83 @@
+#!/bin/bash
+
+case $1 in
+  client)
+    cd client
+    ;;
+
+  mobile)
+    cd mobile
+    ;;
+
+  server)
+    cd server
+    ;;
+
+  ws)
+    cd websocket
+    ;;
+
+  *)
+    echo "❌ Invalid module. Use: client | mobile | server"
+    exit 1
+    ;;
+esac
+
+module="$1"
+case $2 in
+  setup)
+    if [ $module == "mobile" ]
+    then
+      echo "📱 Setting up Expo Mobile App..."
+      cp .env.local.example .env.local
+      npm install -g eas-cli
+      npm install
+      echo "✅ Mobile setup complete. Login to Expo if needed:"
+      npx expo login
+    elif [ $module == "server" ]
+    then
+      echo "🖥️ Setting up NestJS Server..."
+      cp .env.example .env
+      npm install -g @nestjs/cli
+      npm install
+      echo "✅ Server setup complete."
+    elif [ $module == "client" ]
+    then
+      echo "💻 Setting up Web Client..."
+      cp .env.example .env.local
+      npm install
+      echo "✅ Client setup complete."
+    fi
+    ;;
+
+  run)
+    if [ $module == "mobile" ]
+    then
+      npx expo start
+    elif [ $module == "server" ]
+    then
+      npm run start:dev
+    elif [ $module == "client" ]
+    then
+      npm run dev
+    fi
+    ;;
+
+  build)
+    if [ $module == "server" ]
+    then
+      npm run build
+    elif [ $module == "mobile" ]
+    then
+      eas build --profile production --platform android
+    elif [ $module == "client" ]
+    then
+      npm run build
+    fi
+    ;;
+
+  *)
+    echo "❌ Invalid command. Use: setup | run | build"
+    exit 1
+    ;;
+esac
