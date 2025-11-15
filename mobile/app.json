@@ -37,6 +37,10 @@
           "dark": {
             "backgroundColor": "#000000"
           }
+        },
+        "nativewind",
+        {
+          "tailwindConfig": "./tailwind.config.js"
         }
       ]
     ],
